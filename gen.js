@@ -1,7 +1,7 @@
-var quavers  = ["GG ", "zG ", "Gz "]
-var triplets = ["(3GGG "]
-var easysemi = ["G/G/G/G/ ", "GG/G/ ", "G/G/G ", "G3/2G/ "]
-var hardsemi = ["z/G/z/G/ ", "zz/G/ ", "z/G/G/z/ ", "G/GG/ ", "z/G/z ", "zG/G/ ", "G/G/z ", "z/G/G/G/ "]
+var quavers  = ["NN ", "zN ", "Nz "]
+var triplets = ["(3NNN "]
+var easysemi = ["N/N/N/N/ ", "NN/N/ ", "N/N/N ", "N3/2N/ "]
+var hardsemi = ["z/N/z/N/ ", "zz/N/ ", "z/N/N/z/ ", "N/NN/ ", "z/N/z ", "zN/N/ ", "N/N/z ", "z/N/N/N/ "]
 
 // 0000 // z2
 // 0001 // zz/G/
@@ -32,7 +32,7 @@ var dict;
 var abcTune;
 
 function makeDict() {
-    var dict = ["G2 ", "z2 "];
+    var dict = ["N2 ", "z2 "];
     function pushValue(value) {	dict.push(value); }
     if (document.getElementById("quavers").checked)
 	quavers.forEach(pushValue);
@@ -58,7 +58,7 @@ function makemidi() {
     	    },
 	    qpm: document.getElementById("tempo").value,
 	    drum: drums[meter-2],
-	    drumIntro: 1
+	    drumIntro: 1,
 	});
 	document.getElementById("warning").style.display = "block";
     } else {
@@ -86,6 +86,12 @@ function colorRange(range, color) {
     }
 }
 
+function transpose() {
+    abc = abc.replace(/[A-G]/g,  document.getElementById("note").value);
+    abcTune = ABCJS.renderAbc("notation", abc);
+    makemidi();
+}
+
 function createRhythm() {
     meter = Math.floor(Math.random() * 3) + 2;
     abc = "M: ".concat(meter);
@@ -99,7 +105,8 @@ function createRhythm() {
 	abc = abc.concat("|");
 	if (bar == 3) abc = abc.concat("\n")
     }
-    abc = abc.concat("G", meter * 2,"|]");
+    abc = abc.concat("N", meter * 2,"|]");
+    abc = abc.replace(/N/g, document.getElementById("note").value);
     console.log(abc);
 
     abcTune = ABCJS.renderAbc("notation", abc);
