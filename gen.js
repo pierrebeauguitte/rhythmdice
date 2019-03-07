@@ -46,9 +46,14 @@ function makeDict() {
 }
 
 function makemidi() {
+    var abcForMidi;
+    if (document.getElementById("note").value == "e")
+	abcForMidi = "K:C perc\n%%MIDI drummap e  37 % side stick\n".concat(abc);
+    else
+	abcForMidi = abc;
     console.log("Generating MIDI...");
     if (document.getElementById("metro").checked) {
-	ABCJS.renderMidi("control", abc, {
+	ABCJS.renderMidi("control", abcForMidi, {
 	    animate: {
     		listener: function animateCallback(lastRange, currentRange, context) {
     		    colorRange(lastRange, "#000000");
@@ -59,10 +64,13 @@ function makemidi() {
 	    qpm: document.getElementById("tempo").value,
 	    drum: drums[meter-2],
 	    drumIntro: 1,
+	    inlineControls: {
+		loopToggle: true,
+            }
 	});
 	document.getElementById("warning").style.display = "block";
     } else {
-	ABCJS.renderMidi("control", abc, {
+	ABCJS.renderMidi("control", abcForMidi, {
 	    animate: {
     		listener: function animateCallback(lastRange, currentRange, context) {
     		    colorRange(lastRange, "#000000");
@@ -70,7 +78,10 @@ function makemidi() {
     		},
     		target: abcTune[0]
     	    },
-	    qpm: document.getElementById("tempo").value
+	    qpm: document.getElementById("tempo").value,
+	    inlineControls: {
+		loopToggle: true,
+            }
 	});
 	document.getElementById("warning").style.display = "none";
     }	
@@ -87,7 +98,9 @@ function colorRange(range, color) {
 }
 
 function transpose() {
-    abc = abc.replace(/[A-G]/g,  document.getElementById("note").value);
+    if (abc == undefined)
+	return;
+    abc = abc.replace(/[A-Ge]/g,  document.getElementById("note").value);
     abcTune = ABCJS.renderAbc("notation", abc);
     makemidi();
 }
