@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title> ABC Rhythm Dice </title>
+    <link rel="stylesheet" type="text/css" href="abcjs-midi.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+      #paper .cursor {
+	  background-color: #ffffc0;
+	  opacity: 0.5
+      }
+      body {
+	  max-width: 800px;
+	  min-width: 350px;
+	  font-family: "Verdana";
+	  margin: 20px auto;
+	  padding: 20px;
+	  border: 1px solid cornflowerblue;
+	  border-radius: 5px;
+      }
+      h1 {
+	  text-align: center;
+      }
+      #create {
+	  font-size: 16px;
+      }
+      #credits, #warning {
+	  font-size: 12px;
+      }
+      #warning {
+	  display: none;
+      }
+      #beats, #options {
+	  float: left;
+	  width: 400px;
+      }
+      #notation, #control, #credits {
+	  width: 800px;
+	  clear: both;
+      }
+      #tempo {
+	  width: 50px;
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <script src="abcjs_midi_5.6.7-min.js"></script>
+    <script src="gen.js"></script>
+
+    <h1>Rhythm training: roll the dice!</h1>
+
+    <div id="beats">
+      <input type="checkbox" id="quavers" checked/> quavers <br/>
+      <input type="checkbox" id="triplets" checked/> triplets <br/>
+      <input type="checkbox" id="easysemi" checked/> semi-quavers (easy ones) <br/>
+      <input type="checkbox" id="hardsemi"/> semi-quavers (hard) <br/><br/>
+      <button type="button" id="create" onclick="createRhythm()">Create a rhythm</button> <br/>
+    </div>
+
+    <div id="options">
+      <h3>Playback options</h3>
+      <input type="checkbox" id="metro" checked onchange="makemidi()"/> Metronome track |
+      Tempo <input type="number" id="tempo" min="30" max="160" value="80" onchange="makemidi()"> <br/>
+    </div>
+
+    <div id="notation"></div>
+
+    <div id="warning">
+      <p>When metronome is active, it happens that the main track isn't playing. Restarting playback shoudl fix that.</p>
+    </div> 
+    
+    <div id="control"></div>
+
+    <div id="credits">
+      <br/><p>Credits: the "dice" (random rhythm generator) is programmed by Pierre Beauguitte, but entirely relies upon <a href="https://abcjs.net/" target="_blank">abcjs</a>, an open source ABC music notation engraving library, written by Paul Rosen and Gregory Dyke. </p>
+    </div>
+
+  </body>
+</html>
